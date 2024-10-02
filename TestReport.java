@@ -220,10 +220,10 @@ public class Tek_Properties {
 			FileInputStream f = new FileInputStream("framework.properties");
 			reportProperties.load(f);
 			property_screenshot_on_step = getBoolean(reportProperties.get("SCREENSHOT_ON_STEP"));
-			property_takeScreenshot = getBoolean(reportProperties.get("tekion.reports.takescreenshot"));
+			property_takeScreenshot = getBoolean(reportProperties.get("reports.takescreenshot"));
 			property_continueExecutionAfterStepFailed = getBoolean(
-					reportProperties.get("tekion.reports.continueExecutionAfterStepFailed"));
-			property_showBrowserLog = getBoolean(reportProperties.get("tekion.reports.showBrowserLog"));
+					reportProperties.get("reports.continueExecutionAfterStepFailed"));
+			property_showBrowserLog = getBoolean(reportProperties.get("reports.showBrowserLog"));
 
 			if (f != null)
 				f.close();
@@ -582,7 +582,7 @@ public class Tek_Properties {
 			fileWriter.append(showLogo("left"));
 			fileWriter.append("<br>");
 			fileWriter.append("<br>");
-			fileWriter.append("<h1 style= \"text-align:center; color:teal;\"> Tekion Automation Report </h1>");
+			fileWriter.append("<h1 style= \"text-align:center; color:teal;\"> Automation Report </h1>");
 			fileWriter.append("<br>");
 			fileWriter.append("<br>");
 
@@ -653,7 +653,7 @@ public class Tek_Properties {
 
 			//			fileWriter.append("<div style=\"position:fixed;bottom:0;right:0;left:0;width:100%;text-align:center;font-size:12px;"
 			//					+ "border-top:1px solid #ccc; margin:25px; padding-top:15px; width:calc(100% - 50px);"
-			//					+ "\">Designed By Tekion Automation Team</div>");
+			//					+ "\">Designed By Automation Team</div>");
 
 			int index = 0;
 			TreeSet<String> allKeys = new TreeSet<String>(testMap.keySet());
@@ -683,7 +683,7 @@ public class Tek_Properties {
 	}
 
 	private CharSequence showLogo(String position) {
-		return "<img src=Tekion.gif style=float:"+position+";>";
+		return "<img src=sample.gif style=float:"+position+";>";
 	}
 
 	private void pieChart(FileWriter fw, int testsCount, int passedTestsCount, int failedTestsCount, int notStartedTestsCount) {
