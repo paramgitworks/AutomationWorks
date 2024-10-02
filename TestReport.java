@@ -307,13 +307,6 @@ public class Tek_Properties {
 		writeSuiteData();
 	}
 
-	/**
-	 * @author paramagurusubbiah
-	 * @createdDate 10-Dec-2019
-	 * @modifiedBy
-	 * @modifiedDate
-	 * @description createTestFolder
-	 */
 	public void createTestFolder(String key) {
 
 		File testResultFolder = new File(currentRunResults + "/" + key);
@@ -535,14 +528,6 @@ public class Tek_Properties {
 		}
 	}
 
-	/**
-	 * @author paramagurusubbiah
-	 * @param fileWriter 
-	 * @createdDate 18-Oct-2019
-	 * @modifiedBy
-	 * @modifiedDate
-	 * @description setApiDetails
-	 */
 	private void setApiDetails(FileWriter fileWriter) {
 
 		try {
@@ -1190,18 +1175,6 @@ public class Tek_Properties {
 	}
 
 
-	/**
-	 * 
-	 * @author paramagurusubbiah
-	 * @createdDate 10-Oct-2019
-	 * @modifiedBy rakesh, ahamed
-	 * @modifiedDate 6-Dec-2019
-	 * @description setAPIDataInReport
-	 * The htmlFileName is changed from
-	 * currentRunResults + "/" + TLDriverFactory.getTestCaseName() + "/index.html";
-	 * to
-	 *  TLDriverFactory.getReport().getAbsolutePath();
-	 */
 	public static void setAPIDataInReport(String description) {
 
 		String htmlFileName = TLDriverFactory.getReport().getAbsolutePath();
@@ -1223,27 +1196,11 @@ public class Tek_Properties {
 		setTestResultInReport(description,true);
 	}
 
-	/**
-	 * 
-	 * @author paramagurusubbiah
-	 * @createdDate 10-Oct-2019
-	 * @modifiedBy
-	 * @modifiedDate
-	 * @description setTestDataInReport
-	 */
 	public static void setTestResultInReport(String description, boolean isPassed) {
 		String htmlFileName = TLDriverFactory.getReport().getAbsolutePath();
 		appendTestDataInReport(description, htmlFileName, "resultData", isPassed);	
 	}
 
-	/**
-	 * 
-	 * @author paramagurusubbiah
-	 * @createdDate 10-Oct-2019
-	 * @modifiedBy
-	 * @modifiedDate
-	 * @description setTestDataInHtmlAsString
-	 */
 	public static void appendTestDataInReport(String htmlData, String htmlFileName, String id, boolean isPassed) {
 		try {
 			File htmlFile = new File(htmlFileName);
@@ -1301,15 +1258,6 @@ public class Tek_Properties {
 		pauseOtherThreads(10);
 	}	
 
-	/**
-	 * 
-	 * @author ahamedabdulrahman
-	 * @createdDate 9 Mar 2020
-	 * @modifiedBy
-	 * @modifiedDate
-	 * @description Wherever, there is a need to hold the execution of other threads for some time, this method can be used. I will hold the execution for mentioned seconds.
-	 * @param joinTime - in seconds
-	 */
 	public void pauseOtherThreads(int joinTime) {
 		checkThreadPauseRequest();
 		requestingThread = Thread.currentThread().getId();
@@ -1317,28 +1265,10 @@ public class Tek_Properties {
 		threadJoinTime = joinTime;
 	}
 
-	/**
-	 * 
-	* @author ahamedabdulrahman
-	* @createdDate 13 Mar 2020
-	* @modifiedBy
-	* @modifiedDate
-	* @description resumeOtherThreads
-	* @param
-	 */
 	public void resumeOtherThreads() {
 		requestingThread = 0;
 	}
 
-	/**
-	 * 
-	 * @author ahamedabdulrahman
-	 * @createdDate 9 Mar 2020
-	 * @modifiedBy
-	 * @modifiedDate
-	 * @description This thread is called by every BaseFunction methods that uses driver object.
-	 * @param
-	 */
 	public void checkThreadPauseRequest() {		
 		try {	
 			for(int counter = 0; counter < 3; counter++) {
