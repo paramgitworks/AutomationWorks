@@ -1,0 +1,27 @@
+pip install pywinauto
+
+from pywinauto.application import Application
+
+# Start the application (example: Notepad)
+app = Application().start('notepad.exe')
+
+# Select window by title
+notepad = app['Untitled - Notepad']
+
+# Type text into the editor
+notepad.Edit.type_keys("Hello World!", with_spaces=True)
+
+# Save the file using hotkeys
+notepad.menu_select("File -> SaveAs")
+
+from selenium import webdriver
+
+# Initialize the browser driver (e.g., Chrome)
+driver = webdriver.Chrome()
+
+# Open a webpage
+driver.get('https://www.example.com')
+
+# Perform web automation steps here...
+
+
