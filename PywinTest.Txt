@@ -25,3 +25,34 @@ driver.get('https://www.example.com')
 # Perform web automation steps here...
 
 
+from pywinauto import Application
+import time
+
+# Start the Calculator application
+app = Application().start('calc.exe')
+
+# Give the application some time to open
+time.sleep(2)
+
+# Access the main window of the Calculator
+calc = app.Calculator
+
+# Type "2"
+calc['Two'].click_input()
+
+# Click on the '+' button
+calc['Plus'].click_input()
+
+# Type "3"
+calc['Three'].click_input()
+
+# Click on the '=' button
+calc['Equals'].click_input()
+
+# Optionally, retrieve the result
+result = calc['Result'].window_text()
+print(f'The result is: {result}')
+
+# Close the Calculator application
+app.Calculator.close()
+
