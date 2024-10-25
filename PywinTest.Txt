@@ -56,3 +56,6 @@ print(f'The result is: {result}')
 # Close the Calculator application
 app.Calculator.close()
 
+
+Working in the US has been a long-time aspiration of mine, and I would be thrilled if such an opportunity were offered to me. Therefore, I kindly ask that you consider me if any opportunities arise. However, if you do not foresee such an opportunity within the next year, I respectfully request to be released so that I can explore other accounts. I genuinely wish to continue contributing to this account, but working in the US is a personal goal I hope to achieve.
+
