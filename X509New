@@ -1,0 +1,55 @@
+import org.apache.wss4j.common.crypto.Merlin;
+import org.apache.wss4j.dom.WSSecHeader;
+import org.apache.wss4j.dom.message.WSSecSignature;
+import org.apache.wss4j.common.ext.WSSecurityConstants;
+import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.security.KeyStore;
+import java.util.Properties;
+
+public class WSSecurityExample {
+    public static void main(String[] args) throws Exception {
+        // Load the JKS file
+        String jksFilePath = "/path/to/your-keystore.jks";
+        String keystorePassword = "yourKeystorePassword";
+        String keyAlias = "yourKeyAlias";
+
+        KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keystore.load(new FileInputStream(jksFilePath), keystorePassword.toCharArray());
+
+        // Configure WSS4J Crypto
+        Properties props = new Properties();
+        props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.type", "jks");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.password", keystorePassword);
+        props.put("org.apache.wss4j.crypto.merlin.keystore.file", jksFilePath);
+
+        Merlin crypto = new Merlin(props, WSSecurityExample.class.getClassLoader());
+
+        // Load your SOAP request XML
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File("/path/to/your-soap-request.xml"));
+
+        // Add WS-Security Header
+        WSSecHeader secHeader = new WSSecHeader(document);
+        secHeader.insertSecurityHeader();
+
+        // Sign the request
+        WSSecSignature signature = new WSSecSignature(secHeader);
+        signature.setUserInfo(keyAlias, keystorePassword);
+        signature.setKeyIdentifierType(WSSecurityConstants.KEYIDENTIFIER_SECURITY_TOKEN_DIRECT_REFERENCE);
+        signature.build(crypto);
+
+        // Print the signed SOAP message
+        System.out.println("Signed SOAP Message: ");
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.transform(new DOMSource(document), new StreamResult(System.out));
+    }
+}
