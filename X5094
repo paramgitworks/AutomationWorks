@@ -1,0 +1,60 @@
+import org.apache.wss4j.common.crypto.Crypto;
+import org.apache.wss4j.common.crypto.Merlin;
+import org.apache.wss4j.dom.WSSecSignature;
+import org.apache.wss4j.dom.message.WSSecHeader;
+import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.Properties;
+
+public class WSRequest {
+    public static void main(String[] args) throws Exception {
+        // Path to your JKS file
+        String jksPath = "/path/to/your.jks";
+        String keystorePassword = "yourKeystorePassword";
+        String keyAlias = "yourKeyAlias"; // Alias in the keystore
+
+        // Load the XML file
+        File xmlFile = new File("/path/to/your-soap-body.xml");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(xmlFile);
+
+        // Create Crypto object using Merlin
+        Properties cryptoProperties = new Properties();
+        cryptoProperties.setProperty("org.apache.wss4j.crypto.merlin.keystore.type", "jks");
+        cryptoProperties.setProperty("org.apache.wss4j.crypto.merlin.keystore.password", keystorePassword);
+        cryptoProperties.setProperty("org.apache.wss4j.crypto.merlin.keystore.file", jksPath);
+
+        Crypto crypto = new Merlin(cryptoProperties);
+
+        // Add WS-Security Header
+        WSSecHeader secHeader = new WSSecHeader(doc);
+        secHeader.insertSecurityHeader();
+
+        // Create and configure WSSecSignature
+        WSSecSignature ws = new WSSecSignature(secHeader);
+        ws.setUserInfo(keyAlias, keystorePassword);
+        ws.setKeyIdentifierType(WSSecSignature.KEY_IDENTIFIER_X509_CERT_DIRECT);
+
+        // Sign the SOAP request
+        ws.build(crypto);
+
+        // Convert Document back to String
+        String signedSoapRequest = transformDocumentToString(doc);
+
+        // Print or send the signed SOAP request
+        System.out.println(signedSoapRequest);
+    }
+
+    private static String transformDocumentToString(Document doc) throws Exception {
+        javax.xml.transform.TransformerFactory tf = javax.xml.transform.TransformerFactory.newInstance();
+        javax.xml.transform.Transformer transformer = tf.newTransformer();
+        java.io.StringWriter writer = new java.io.StringWriter();
+        transformer.transform(new javax.xml.transform.dom.DOMSource(doc), new javax.xml.transform.stream.StreamResult(writer));
+        return writer.getBuffer().toString();
+    }
+}
